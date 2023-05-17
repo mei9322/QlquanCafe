@@ -383,7 +383,7 @@ namespace qlquancafe
                             if (name.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 || phoneNumber.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 || address.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 || history.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
                             {
 
-                                Console.WriteLine("│{0,-19}│{1,-15}│{2,-19}│{3,-19}│", name, phoneNumber, address, history);
+                                Console.WriteLine("│{0,-19}│{1,-15}│{2,-19}│{3,-20}│", name, phoneNumber, address, history);
                                 foundAny = true;
                                 if (i < lines.Length - 1)
                                 {

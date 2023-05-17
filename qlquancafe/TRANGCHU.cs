@@ -9,7 +9,7 @@ namespace qlquancafe
             Console.OutputEncoding = System.Text.ASCIIEncoding.UTF8;
             Console.CursorVisible = false; // Ẩn con trỏ chuột
 
-            string[] menuItems = { "Quản lý khách hàng", "Quản lý đồ uống", "Quản lý đơn hàng", "Quản lý nhân viên", "Quản lý bàn" };
+            string[] menuItems = { "Quản lý khách hàng", "Quản lý đồ uống", "Quản lý thanh toán", "Quản lý nhân viên","Quản lý doanh thu", "Quản lý bàn" };
             int selectedItemIndex = 0;
 
             while (true)
@@ -92,6 +92,7 @@ namespace qlquancafe
 
 
 
+       
 
 
         static void HandleSelection(int selectedItemIndex)
@@ -108,13 +109,14 @@ namespace qlquancafe
                     break;
                 case 1:
                     // Quản lý đồ uống
-                    Console.WriteLine("Chức năng quản lý đồ uống");
-                    quanlydouong.QuanLyDoUongMenu();
+                    Console.WriteLine("Chức năng quản lý menu sản phẩm");
+                    QL_menu.QuanLyMenuSP();
                     // TODO: Thêm code để xử lý chức năng quản lý đồ uống
                     break;
                 case 2:
                     // Quản lý đơn hàng
-                    Console.WriteLine("Chức năng quản lý đơn hàng");
+                    Console.WriteLine("Chức năng thanh toán");
+                    ThanhToan.ThucHienThanhToan();
                     // TODO: Thêm code để xử lý chức năng quản lý đơn hàng
                     break;
                 case 3:
@@ -124,6 +126,13 @@ namespace qlquancafe
                     QlNhanvien.QuanLyNhanVienMenu();
                     break;
                 case 4:
+                    // Quản lý khách hàng
+                    Console.WriteLine("Quản lý doanh thu");
+                    // TODO: Thêm code để xử lý chức năng quản lý khách hàng
+                    ThongKeDoanhThu.HienThiThongTinDoanhThu();
+                    break;
+
+                case 5:
                     // Quản lý bàn
                     Console.WriteLine("Chức năng quản lý bàn");
                     // TODO: Thêm code để xử lý chức năng quản lý bàn

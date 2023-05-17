@@ -9,6 +9,7 @@ namespace qlquancafe
 {
     class qlKhachHang
     {
+
         public static void QuanLyKhachHangMenu()
         {
             Console.Clear();
