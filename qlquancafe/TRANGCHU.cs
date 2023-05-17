@@ -9,7 +9,7 @@ namespace qlquancafe
             Console.OutputEncoding = System.Text.ASCIIEncoding.UTF8;
             Console.CursorVisible = false; // Ẩn con trỏ chuột
 
-            string[] menuItems = { "Quản lý khách hàng", "Quản lý đồ uống", "Quản lý đơn hàng", "Quản lý khách hàng", "Quản lý bàn" };
+            string[] menuItems = { "Quản lý khách hàng", "Quản lý đồ uống", "Quản lý đơn hàng", "Quản lý nhân viên", "Quản lý bàn" };
             int selectedItemIndex = 0;
 
             while (true)
@@ -119,8 +119,9 @@ namespace qlquancafe
                     break;
                 case 3:
                     // Quản lý khách hàng
-                    Console.WriteLine("Chức năng quản lý khách hàng");
+                    Console.WriteLine("Chức năng quản lý nhân viên");
                     // TODO: Thêm code để xử lý chức năng quản lý khách hàng
+                    QlNhanvien.QuanLyNhanVienMenu();
                     break;
                 case 4:
                     // Quản lý bàn

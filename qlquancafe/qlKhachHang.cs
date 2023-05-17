@@ -204,25 +204,65 @@ namespace qlquancafe
         private static void ThemKhachHang()
         {
             string filePath = @"C:\Users\1010302\OneDrive\Documents\file_khachhang.txt";
-
+            Console.InputEncoding = Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine("Thêm khách hàng mới:\n");
 
-            Console.Write("Nhập tên khách hàng: ");
-            string name = Console.ReadLine();
+            string name = "";
+            while (string.IsNullOrWhiteSpace(name))
+            {
+                Console.Write("Nhập tên khách hàng: ");
+                name = Console.ReadLine()?.Trim();
 
-            Console.Write("Nhập số điện thoại: ");
-            string phoneNumber = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    Console.WriteLine("Tên khách hàng không được bỏ trống. Vui lòng nhập lại.");
+                }
+            }
 
-            Console.Write("Nhập địa chỉ: ");
-            string address = Console.ReadLine();
+            string phoneNumber = "";
+            while (string.IsNullOrWhiteSpace(phoneNumber))
+            {
+                Console.Write("Nhập số điện thoại: ");
+                phoneNumber = Console.ReadLine()?.Trim();
 
-            Console.Write("Nhập lịch sử mua: ");
-            string history = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(phoneNumber))
+                {
+                    Console.WriteLine("Số điện thoại không được bỏ trống. Vui lòng nhập lại.");
+                }
+            }
+
+            string address = "";
+            while (string.IsNullOrWhiteSpace(address))
+            {
+                Console.Write("Nhập địa chỉ: ");
+                address = Console.ReadLine()?.Trim();
+
+                if (string.IsNullOrWhiteSpace(address))
+                {
+                    Console.WriteLine("Địa chỉ không được bỏ trống. Vui lòng nhập lại.");
+                }
+            }
+
+            string history = "";
+            while (string.IsNullOrWhiteSpace(history))
+            {
+                Console.Write("Nhập lịch sử mua: ");
+                history = Console.ReadLine()?.Trim();
+
+                if (string.IsNullOrWhiteSpace(history))
+                {
+                    Console.WriteLine("Lịch sử mua không được bỏ trống. Vui lòng nhập lại.");
+                }
+            }
+
+            // Tiếp tục với mã ghi dữ liệu vào file
+
 
 
             try
             {
-                using (StreamWriter writer = new StreamWriter(filePath, true))
+                using (StreamWriter writer = new StreamWriter(filePath, true, Encoding.UTF8))
                 {
                     writer.WriteLine($"{name},{phoneNumber},{address},{history}");
                 }
@@ -236,7 +276,6 @@ namespace qlquancafe
             {
                 Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
             }
-            // Thêm khách hàng vào danh sách
 
 
             // Hiển thị danh sách khách hàng
@@ -247,7 +286,8 @@ namespace qlquancafe
         private static void XoaKhachHang()
         {
             string filePath = @"C:\Users\1010302\OneDrive\Documents\file_khachhang.txt";
-
+            Console.InputEncoding = Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine("Xóa thông tin khách hàng:\n");
 
             Console.Write("Nhập tên khách hàng cần xóa: ");
@@ -429,7 +469,7 @@ namespace qlquancafe
 
                     }
 
-                    Console.WriteLine("└───────────────────┴───────────────┴───────────────────┴───────────────┘");
+                   // Console.WriteLine("└───────────────────┴───────────────┴───────────────────┴───────────────┘");
 
                     if (!foundAny)
                     {
