@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+
 
 namespace qlquancafe
 {
@@ -12,7 +14,7 @@ namespace qlquancafe
             Console.Clear();
             Console.WriteLine("Chức năng quản lý khách hàng");
 
-            string[] menuItems = { "Xem thông tin khách hàng", "Thêm khách hàng mới", "Sửa thông tin khách hàng", "Xóa khách hàng", "Tìm kiếm khách hàng", "Trở về trang chủ" };
+            string[] menuItems = { "Xem thông tin khách hàng", "Thêm khách hàng mới", "Xóa khách hàng", "Tìm kiếm khách hàng", "Trở về trang chủ" };
             int selectedItemIndex = 0;
             bool isShowingCustomers = false;
             while (true)
@@ -59,19 +61,20 @@ namespace qlquancafe
                             case 1:
                                 ThemKhachHang();
                                 break;
-                            case 2:
+                            /*case 2:
                                 SuaThongTinKhachHang();
-                                break;
-                            case 3:
+                                break;*/
+                            case 2:
                                 XoaKhachHang();
                                 break;
-                            case 4:
-                                isShowingCustomers = true;
+                            case 3:
+
                                 TimKiemKhachHang();
                                 break;
-                            case 5:
+                            case 4:
 
                                 return; // Trở về trang chủ
+
                         }
 
                         Console.WriteLine("\nNhấn phím bất kỳ để tiếp tục...");
@@ -81,30 +84,36 @@ namespace qlquancafe
             }
         }
 
-        private static void DrawMenu(string[] menuItems, int selectedItemIndex)
+
+        static void DrawMenu(string[] menuItems, int selectedItemIndex)
         {
-            int menuWidth = 20;
+            int menuWidth = 35;
             int menuHeight = menuItems.Length;
             int startRow = Console.WindowHeight / 2 - menuHeight / 2;
             int startCol = Console.WindowWidth / 2 - menuWidth / 2;
 
             Console.Clear();
 
+            // Vẽ đường viền trên cùng
+            Console.SetCursorPosition(startCol, startRow);
+            Console.WriteLine("┌" + new string('─', menuWidth - 2) + "┐");
+
+            // Vẽ các mục trong menu và đường viền bên trái và bên phải
             for (int i = 0; i < menuItems.Length; i++)
             {
-                Console.SetCursorPosition(startCol, startRow + i);
+                Console.SetCursorPosition(startCol, startRow + i + 1);
 
                 if (i == selectedItemIndex)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
-                    Console.Write("-> ");
+                    Console.Write("│--> ");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.BackgroundColor = ConsoleColor.Black;
-                    Console.Write("   ");
+                    Console.Write("│    "); // Thêm khoảng trống ở đây để tạo khoảng cách
                 }
 
                 Console.Write(menuItems[i]);
@@ -113,16 +122,26 @@ namespace qlquancafe
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
-                    Console.Write(" <-");
+                    Console.Write(" <--");
                 }
+
+                Console.SetCursorPosition(startCol + menuWidth - 1, startRow + i + 1);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine("│");
             }
+
+            // Vẽ đường viền dưới cùng
+            Console.SetCursorPosition(startCol, startRow + menuHeight + 1);
+            Console.WriteLine("└" + new string('─', menuWidth - 2) + "┘");
+
+            // Đặt con trỏ chuột trở lại vị trí ban đầu
+            Console.SetCursorPosition(startCol + 5, startRow + selectedItemIndex + 1);
         }
 
         private static void XemThongTinKhachHang()
         {
             string filePath = @"C:\Users\1010302\OneDrive\Documents\file_khachhang.txt";
-
-            Console.WriteLine("Thông tin khách hàng:\n");
 
             try
             {
@@ -130,11 +149,17 @@ namespace qlquancafe
 
                 if (lines.Length > 0)
                 {
-                    Console.WriteLine("{0,-20}{1,-15}{2,-20}{3,-15}", "Tên", "Số điện thoại", "Địa chỉ", "Lịch sử mua");
-                    Console.WriteLine("---------------------------------------------------------");
 
-                    foreach (string line in lines)
+                    Console.WriteLine("┌───────────────────────────────────────────────────────────────────────┐");
+                    Console.WriteLine("│                             THÔNG TIN KHÁCH HÀNG                      │");
+
+                    Console.WriteLine("├───────────────────────────────────────────────────────────────────────┤");
+                    Console.WriteLine("│        Tên        │ Số điện thoại │       Địa chỉ     │ Lịch sử mua   │");
+                    Console.WriteLine("├───────────────────┼───────────────┼───────────────────┼───────────────┤");
+
+                    for (int i = 0; i < lines.Length; i++)
                     {
+                        string line = lines[i];
                         string[] values = line.Split(',');
 
                         if (values.Length == 4)
@@ -144,9 +169,17 @@ namespace qlquancafe
                             string address = values[2].Trim();
                             string history = values[3].Trim();
 
-                            Console.WriteLine("{0,-20}{1,-15}{2,-20}{3,-15}", name, phoneNumber, address, history);
+                            Console.WriteLine("│{0,-19}│{1,-15}│{2,-19}│{3,-15}│", name, phoneNumber, address, history);
+
+                            if (i < lines.Length - 1)
+                            {
+
+                                Console.WriteLine("└───────────────────└───────────────└───────────────────└───────────────┘");
+                            }
                         }
                     }
+
+                    Console.WriteLine("└───────────────────┴───────────────┴───────────────────┴───────────────┘");
                 }
                 else
                 {
@@ -157,6 +190,7 @@ namespace qlquancafe
             {
                 Console.WriteLine("Không tìm thấy tệp file_khachhang.txt");
             }
+
             catch (Exception ex)
             {
                 Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
@@ -165,6 +199,7 @@ namespace qlquancafe
             Console.WriteLine("\nNhấn phím bất kỳ để trở về trang chủ...");
             Console.ReadKey();
         }
+
 
         private static void ThemKhachHang()
         {
@@ -184,16 +219,18 @@ namespace qlquancafe
             Console.Write("Nhập lịch sử mua: ");
             string history = Console.ReadLine();
 
-            string newLine = $"{name}, {phoneNumber}, {address}, {history}";
 
             try
             {
-                using (StreamWriter writer = File.AppendText(filePath))
+                using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
-                    writer.WriteLine(newLine);
+                    writer.WriteLine($"{name},{phoneNumber},{address},{history}");
                 }
 
-                Console.WriteLine("Thêm khách hàng thành công.");
+                Console.WriteLine("\nThêm khách hàng thành công!");
+
+                Console.WriteLine("\nDanh sách khách hàng sau khi thêm:\n");
+                XemThongTinKhachHang();
             }
             catch (Exception ex)
             {
@@ -203,19 +240,9 @@ namespace qlquancafe
 
 
             // Hiển thị danh sách khách hàng
-            Console.WriteLine("\nDanh sách khách hàng sau khi thêm:\n");
-            XemThongTinKhachHang();
 
-
-            Console.WriteLine("\nNhấn phím bất kỳ để trở về trang chủ...");
-            Console.ReadKey();
         }
 
-        private static void SuaThongTinKhachHang()
-        {
-            // TODO: Thêm mã nguồn để sửa thông tin khách hàng trong tệp khachhang.txt
-            Console.WriteLine("Chức năng sửa thông tin khách hàng");
-        }
 
         private static void XoaKhachHang()
         {
@@ -243,7 +270,7 @@ namespace qlquancafe
 
                         if (khachHangName.Equals(name, StringComparison.OrdinalIgnoreCase))
                         {
-                            // Bỏ qua dòng chứa thông tin của khách hàng cần xóa
+                            // Khách hàng được tìm thấy, không thêm dòng này vào danh sách
                             khachHangDaXoa = true;
                             continue;
                         }
@@ -267,7 +294,7 @@ namespace qlquancafe
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Không tìm thấy tệp khachhang.txt");
+                Console.WriteLine("Không tìm thấy tệp file_khachhang.txt");
             }
             catch (Exception ex)
             {
@@ -275,11 +302,88 @@ namespace qlquancafe
             }
         }
 
+
+        /* private static void TimKiemKhachHang()
+         {
+             string filePath = @"C:\Users\1010302\OneDrive\Documents\file_khachhang.txt";
+
+             try
+             {
+                 string[] lines = File.ReadAllLines(filePath);
+
+                 if (lines.Length > 0)
+                 {
+                     Console.Write("Nhập kí tự tìm kiếm: ");
+                     string keyword = Console.ReadLine();
+
+                     Console.WriteLine("┌───────────────────────────────────────────────────────────────────────┐");
+                     Console.WriteLine("│                             KẾT QUẢ TÌM KIẾM                          │");
+                     Console.WriteLine("├───────────────────────────────────────────────────────────────────────┤");
+                     Console.WriteLine("│        Tên        │ Số điện thoại │       Địa chỉ     │ Lịch sử mua   │");
+                     Console.WriteLine("├───────────────────┼───────────────┼───────────────────┼───────────────┤");
+
+                     bool foundAny = false;
+                     for (int i = 0; i < lines.Length; i++)
+                     {
+                         string line = lines[i];
+                         string[] values = line.Split(',');
+
+                         if (values.Length == 4)
+                         {
+                             string name = values[0].Trim();
+                             string phoneNumber = values[1].Trim();
+                             string address = values[2].Trim();
+                             string history = values[3].Trim();
+
+                             if (name.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 || phoneNumber.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 || address.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 || history.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                             {
+
+                                 Console.WriteLine("│{0,-19}│{1,-15}│{2,-19}│{3,-15}│", name, phoneNumber, address, history);
+
+                                 foundAny = true;
+                                 if (i < lines.Length - 1)
+                                 {
+
+                                     Console.WriteLine("└───────────────────└───────────────└───────────────────└───────────────┘");
+                                 }
+                             }
+
+
+                         }
+                     }
+                     Console.WriteLine("└───────────────────┴───────────────┴───────────────────┴───────────────┘");
+
+                     if (!foundAny)
+                     {
+                         Console.WriteLine("Không tìm thấy khách hàng phù hợp.");
+                     }
+
+
+                 }
+                 else
+                 {
+                     Console.WriteLine("Không có thông tin khách hàng.");
+                     return;
+                 }
+                 XemThongTinKhachHang();
+
+             }
+             catch (FileNotFoundException)
+             {
+                 Console.WriteLine("Không tìm thấy tệp file_khachhang.txt");
+             }
+             catch (Exception ex)
+             {
+                 Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
+             }
+
+             Console.WriteLine("\nBấm phím bất kỳ để về trang quản lý khách hàng.");
+             Console.ReadKey();
+
+         }*/
         private static void TimKiemKhachHang()
         {
             string filePath = @"C:\Users\1010302\OneDrive\Documents\file_khachhang.txt";
-
-            Console.WriteLine("Dữ liệu khách hàng:\n");
 
             try
             {
@@ -287,41 +391,19 @@ namespace qlquancafe
 
                 if (lines.Length > 0)
                 {
-                    Console.WriteLine("{0,-20}{1,-15}{2,-20}{3,-15}", "Tên", "Số điện thoại", "Địa chỉ", "Lịch sử mua");
-                    Console.WriteLine("---------------------------------------------------------");
-
-                    List<string> foundCustomers = new List<string>();
-
-                    foreach (string line in lines)
-                    {
-                        string[] values = line.Split(',');
-
-                        if (values.Length == 4)
-                        {
-                            string name = values[0].Trim();
-                            string phoneNumber = values[1].Trim();
-                            string address = values[2].Trim();
-                            string history = values[3].Trim();
-
-                            foundCustomers.Add(line);
-                        }
-                    }
-
-                    Console.WriteLine();
-                    Console.WriteLine("Tìm kiếm khách hàng:\n");
-
                     Console.Write("Nhập kí tự tìm kiếm: ");
                     string keyword = Console.ReadLine();
 
-                    Console.WriteLine("\nKết quả tìm kiếm:\n");
-
-                    Console.WriteLine("{0,-20}{1,-15}{2,-20}{3,-15}", "Tên", "Số điện thoại", "Địa chỉ", "Lịch sử mua");
-                    Console.WriteLine("---------------------------------------------------------");
+                    Console.WriteLine("┌───────────────────────────────────────────────────────────────────────┐");
+                    Console.WriteLine("│                             THÔNG TIN KHÁCH HÀNG                      │");
+                    Console.WriteLine("├───────────────────────────────────────────────────────────────────────┤");
+                    Console.WriteLine("│        Tên        │ Số điện thoại │       Địa chỉ     │ Lịch sử mua   │");
+                    Console.WriteLine("├───────────────────┼───────────────┼───────────────────┼───────────────┤");
 
                     bool foundAny = false;
-
-                    foreach (string line in foundCustomers)
+                    for (int i = 0; i < lines.Length; i++)
                     {
+                        string line = lines[i];
                         string[] values = line.Split(',');
 
                         if (values.Length == 4)
@@ -331,13 +413,23 @@ namespace qlquancafe
                             string address = values[2].Trim();
                             string history = values[3].Trim();
 
-                            if (name.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                            if (name.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 || phoneNumber.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 || address.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0 || history.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
                             {
-                                Console.WriteLine("{0,-20}{1,-15}{2,-20}{3,-15}", name, phoneNumber, address, history);
+
+                                Console.WriteLine("│{0,-19}│{1,-15}│{2,-19}│{3,-15}│", name, phoneNumber, address, history);
                                 foundAny = true;
+                                if (i < lines.Length - 1)
+                                {
+
+                                    Console.WriteLine("└───────────────────└───────────────└───────────────────└───────────────┘");
+                                }
                             }
+
                         }
+
                     }
+
+                    Console.WriteLine("└───────────────────┴───────────────┴───────────────────┴───────────────┘");
 
                     if (!foundAny)
                     {
@@ -347,24 +439,23 @@ namespace qlquancafe
                 else
                 {
                     Console.WriteLine("Không có thông tin khách hàng.");
-                    return;
                 }
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Không tìm thấy tệp file_khachhang.txt");
+                Console.WriteLine("Không tìm thấy tệp tin khách hàng.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
             }
 
-            Console.WriteLine("\n");
-
+            Console.WriteLine("\nNhấn phím bất kỳ để trở về trang quản lý khách hàng.");
+            Console.ReadKey();
         }
 
+
     }
-    
+
 }
 
- 

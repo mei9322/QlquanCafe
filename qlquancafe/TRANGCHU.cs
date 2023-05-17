@@ -9,7 +9,7 @@ namespace qlquancafe
             Console.OutputEncoding = System.Text.ASCIIEncoding.UTF8;
             Console.CursorVisible = false; // Ẩn con trỏ chuột
 
-            string[] menuItems = { "Quản lý khách hàng","Quản lý đồ uống", "Quản lý đơn hàng", "Quản lý khách hàng", "Quản lý bàn" };
+            string[] menuItems = { "Quản lý khách hàng", "Quản lý đồ uống", "Quản lý đơn hàng", "Quản lý khách hàng", "Quản lý bàn" };
             int selectedItemIndex = 0;
 
             while (true)
@@ -38,28 +38,33 @@ namespace qlquancafe
 
         static void DrawMenu(string[] menuItems, int selectedItemIndex)
         {
-            int menuWidth = 20;
+            int menuWidth = 30;
             int menuHeight = menuItems.Length;
             int startRow = Console.WindowHeight / 2 - menuHeight / 2;
             int startCol = Console.WindowWidth / 2 - menuWidth / 2;
 
             Console.Clear();
 
+            // Vẽ đường viền trên cùng
+            Console.SetCursorPosition(startCol, startRow);
+            Console.WriteLine("┌" + new string('─', menuWidth - 2) + "┐");
+
+            // Vẽ các mục trong menu và đường viền bên trái và bên phải
             for (int i = 0; i < menuItems.Length; i++)
             {
-                Console.SetCursorPosition(startCol, startRow + i);
+                Console.SetCursorPosition(startCol, startRow + i + 1);
 
                 if (i == selectedItemIndex)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
-                    Console.Write("-> ");
+                    Console.Write("│-> ");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.BackgroundColor = ConsoleColor.Black;
-                    Console.Write("   ");
+                    Console.Write("│   ");
                 }
 
                 Console.Write(menuItems[i]);
@@ -70,8 +75,22 @@ namespace qlquancafe
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.Write(" <-");
                 }
+
+                Console.SetCursorPosition(startCol + menuWidth - 1, startRow + i + 1);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine("│");
             }
+
+            // Vẽ đường viền dưới cùng
+            Console.SetCursorPosition(startCol, startRow + menuHeight + 1);
+            Console.WriteLine("└" + new string('─', menuWidth - 2) + "┘");
+
+            // Đặt con trỏ chuột trở lại vị trí ban đầu
+            Console.SetCursorPosition(startCol + 5, startRow + selectedItemIndex + 1);
         }
+
+
 
 
 
