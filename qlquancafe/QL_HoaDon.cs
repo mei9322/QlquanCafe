@@ -7,7 +7,7 @@ namespace qlquancafe
     {
         public static void ThucHienThanhToan()
         {
-            Console.WriteLine("Nhập id hoặc tên sản phẩm: ");
+            Console.WriteLine("Nhập ID hoặc tên sản phẩm: ");
             string searchValue = Console.ReadLine();
 
             string filePath = @"C:\Users\1010302\OneDrive\Documents\file_menuSP.txt";
@@ -26,43 +26,50 @@ namespace qlquancafe
                     {
                         string id = fields[0].Trim();
                         string name = fields[1].Trim();
-                        int price = Convert.ToInt32(fields[2].Trim());
+                        int price;
 
-                        if (id.Equals(searchValue, StringComparison.OrdinalIgnoreCase) || name.Equals(searchValue, StringComparison.OrdinalIgnoreCase))
+                        if (int.TryParse(fields[2].Trim(), out price))
                         {
-                            isFound = true;
-                            Console.WriteLine();
-                            Console.WriteLine("───────────────────────────────");
-                            Console.WriteLine("Thông tin sản phẩm:");
-                            Console.WriteLine("───────────────────────────────");
-                            Console.WriteLine($"ID:   {id}");
-                            Console.WriteLine($"Tên:  {name}");
-                            Console.WriteLine($"Đơn giá: {price} VNĐ");
-                            Console.WriteLine("───────────────────────────────");
-
-                            Console.WriteLine("Nhập số lượng:");
-                            int quantity = Convert.ToInt32(Console.ReadLine());
-
-                            int totalPrice = price * quantity;
-                            Console.WriteLine();
-                            Console.WriteLine("───────────────────────────────");
-                            Console.WriteLine("Thông tin thanh toán:");
-                            Console.WriteLine("───────────────────────────────");
-                            Console.WriteLine($"Tên sản phẩm:   {name}");
-                            Console.WriteLine($"Số lượng:   {quantity}");
-                            Console.WriteLine($"Tổng tiền: {totalPrice} VNĐ");
-                            Console.WriteLine("───────────────────────────────");
-
-                            // Ghi thông tin vào file QL_DoanhThu.txt
-                            using (StreamWriter writer = new StreamWriter(receiptPath, true))
+                            if (id.Equals(searchValue, StringComparison.OrdinalIgnoreCase) || name.Equals(searchValue, StringComparison.OrdinalIgnoreCase))
                             {
-                                writer.Write(id + ",");
-                                writer.Write(name + ",");
-                                writer.Write(quantity + ",");
-                                writer.Write(totalPrice + ",");
-                                writer.WriteLine( DateTime.Now);
+                                isFound = true;
+                                Console.WriteLine();
+                                Console.WriteLine("───────────────────────────────");
+                                Console.WriteLine("Thông tin sản phẩm:");
+                                Console.WriteLine("───────────────────────────────");
+                                Console.WriteLine($"ID:   {id}");
+                                Console.WriteLine($"Tên:  {name}");
+                                Console.WriteLine($"Đơn giá: {price} VNĐ");
+                                Console.WriteLine("───────────────────────────────");
+
+                                Console.WriteLine("Nhập số lượng:");
+                                int quantity = Convert.ToInt32(Console.ReadLine());
+
+                                int totalPrice = price * quantity;
+                                Console.WriteLine();
+                                Console.WriteLine("───────────────────────────────");
+                                Console.WriteLine("Thông tin thanh toán:");
+                                Console.WriteLine("───────────────────────────────");
+                                Console.WriteLine($"Tên sản phẩm:   {name}");
+                                Console.WriteLine($"Số lượng:   {quantity}");
+                                Console.WriteLine($"Tổng tiền: {totalPrice} VNĐ");
+                                Console.WriteLine("───────────────────────────────");
+
+                                // Ghi thông tin vào file QL_DoanhThu.txt
+                                using (StreamWriter writer = new StreamWriter(receiptPath, true))
+                                {
+                                    writer.Write(id + ",");
+                                    writer.Write(name + ",");
+                                    writer.Write(quantity + ",");
+                                    writer.Write(totalPrice + ",");
+                                    writer.WriteLine(DateTime.Now);
+                                }
+                                break;
                             }
-                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Lỗi định dạng giá sản phẩm.");
                         }
                     }
                 }

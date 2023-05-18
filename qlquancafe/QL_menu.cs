@@ -94,7 +94,8 @@ namespace qlquancafe
             int startCol = Console.WindowWidth / 2 - menuWidth / 2;
 
             Console.Clear();
-
+            Console.SetCursorPosition(startCol, startRow - 2);
+            Console.WriteLine("CHỨC NĂNG QUẢN LÝ MENU SẢN PHẨM");
             // Vẽ đường viền trên cùng
             Console.SetCursorPosition(startCol, startRow);
             Console.WriteLine("┌" + new string('─', menuWidth - 2) + "┐");
@@ -209,8 +210,8 @@ namespace qlquancafe
             string id = "";
             while (string.IsNullOrWhiteSpace(id))
             {
-                Console.Write("Nhập  id sản phẩm: ");
-                id = Console.ReadLine()?.Trim();
+                Console.Write("Nhập ID sản phẩm: ");
+                id = Console.ReadLine()?.Trim().Replace(" ", "").ToLower();
 
                 if (string.IsNullOrWhiteSpace(id))
                 {
@@ -224,7 +225,7 @@ namespace qlquancafe
                         foreach (string line in lines)
                         {
                             string[] values = line.Split(',');
-                            if (values.Length > 0 && values[0] == id)
+                            if (values.Length > 0 && values[0].ToLower() == id)
                             {
                                 Console.WriteLine("Mã sản phẩm đã tồn tại. Vui lòng nhập lại.");
                                 id = "";

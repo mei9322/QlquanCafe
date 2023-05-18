@@ -95,6 +95,8 @@ namespace qlquancafe
 
             Console.Clear();
 
+            //  Console.SetCursorPosition(startCol, startRow - 2);
+            Console.WriteLine("CHỨC NĂNG QUẢN LÝ NHÂN VIÊN");
             // Vẽ đường viền trên cùng
             Console.SetCursorPosition(startCol, startRow);
             Console.WriteLine("┌" + new string('─', menuWidth - 2) + "┐");

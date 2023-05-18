@@ -100,7 +100,9 @@ namespace qlquancafe
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Không có dữ liệu doanh thu cho năm {0}.", year);
+                        Console.ResetColor();
                     }
                 }
             }

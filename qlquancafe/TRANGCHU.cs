@@ -8,8 +8,8 @@ namespace qlquancafe
         {
             Console.OutputEncoding = System.Text.ASCIIEncoding.UTF8;
             Console.CursorVisible = false; // Ẩn con trỏ chuột
-
-            string[] menuItems = { "Quản lý khách hàng", "Quản lý đồ uống", "Quản lý thanh toán", "Quản lý nhân viên","Quản lý doanh thu", "Quản lý bàn" };
+          
+            string[] menuItems = { "Quản lý khách hàng", "Quản lý đồ uống", "Quản lý thanh toán", "Quản lý nhân viên","Quản lý doanh thu" };
             int selectedItemIndex = 0;
 
             while (true)
@@ -44,8 +44,10 @@ namespace qlquancafe
             int startCol = Console.WindowWidth / 2 - menuWidth / 2;
 
             Console.Clear();
-
+            Console.SetCursorPosition(startCol, startRow - 2);
+            Console.WriteLine("CHƯƠNG TRÌNH QUẢN LÝ QUÁN CAFE");
             // Vẽ đường viền trên cùng
+
             Console.SetCursorPosition(startCol, startRow);
             Console.WriteLine("┌" + new string('─', menuWidth - 2) + "┐");
 
@@ -97,6 +99,8 @@ namespace qlquancafe
 
         static void HandleSelection(int selectedItemIndex)
         {
+           
+            
             Console.Clear();
 
             switch (selectedItemIndex)
@@ -132,11 +136,11 @@ namespace qlquancafe
                     ThongKeDoanhThu.HienThiThongTinDoanhThu();
                     break;
 
-                case 5:
+               /* case 5:
                     // Quản lý bàn
                     Console.WriteLine("Chức năng quản lý bàn");
                     // TODO: Thêm code để xử lý chức năng quản lý bàn
-                    break;
+                    break;*/
             }
 
             Console.WriteLine("\nNhấn phím bất kỳ để trở về");
