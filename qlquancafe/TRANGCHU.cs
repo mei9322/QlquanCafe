@@ -1,15 +1,108 @@
 ﻿using System;
-
+using System.Text;
+using System.IO;
 namespace qlquancafe
 {
     class TRANGCHU
     {
+       
+
         public static void Main()
         {
-            Console.OutputEncoding = System.Text.ASCIIEncoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
             Console.CursorVisible = false; // Ẩn con trỏ chuột
-          
-            string[] menuItems = { "Quản lý khách hàng", "Quản lý đồ uống", "Quản lý thanh toán", "Quản lý nhân viên","Quản lý doanh thu" };
+
+            while (true)
+            {
+                if (DangNhap())
+                {
+                    MenuTrangChu();
+                    break;
+                }
+                else
+                {
+                   
+                    Console.WriteLine("\n\t\t\t\tTài khoản hoặc mật khẩu không đúng. Vui lòng thử lại.");
+                    Console.WriteLine("\t\t\t\t\tNhấn phím bất kỳ để tiếp tục đăng nhập...");
+                    Console.ReadKey();
+                }
+
+                Console.Clear();
+            }
+
+            Console.WriteLine("Nhấn phím bất kỳ để thoát...");
+            Console.ReadKey();
+        }
+
+        static bool DangNhap()
+        {
+            Console.Clear();
+            int consoleWidth = Console.WindowWidth;
+            int consoleHeight = Console.WindowHeight;
+            int startX = (consoleWidth - 40) / 2;
+            int startY = (consoleHeight - 10) / 2;
+
+            Console.SetCursorPosition(startX, startY);
+            Console.WriteLine("╔══════════════════════════════════════╗");
+           // Console.SetCursorPosition(startX, startY + 1);
+            //Console.WriteLine("║                                      ║");
+            Console.SetCursorPosition(startX, startY + 1);
+            Console.WriteLine("║          ĐĂNG NHẬP QUÁN CAFE         ║");
+          //  Console.SetCursorPosition(startX, startY + 3);
+          //  Console.WriteLine("║                                      ║");
+            Console.SetCursorPosition(startX, startY + 2);
+            Console.WriteLine("╚══════════════════════════════════════╝");
+
+            Console.SetCursorPosition(startX + 3, startY + 5);
+            Console.Write("Tài khoản: ");
+            string username = Console.ReadLine();
+
+            Console.SetCursorPosition(startX + 3, startY + 7);
+            Console.Write("Mật khẩu: ");
+            string password = ReadPassword();
+
+            // Kiểm tra tài khoản và mật khẩu
+            string filePath = @"C:\Users\1010302\OneDrive\Documents\user.txt";
+            string[] lines = File.ReadAllLines(filePath);
+            foreach (string line in lines)
+            {
+                string[] values = line.Split(',');
+                if (values.Length > 1 && values[0] == username && values[1] == password)
+                {
+                    return true; // Đăng nhập thành công
+                }
+            }
+
+            return false; // Đăng nhập không thành công
+        }
+        static string ReadPassword()
+        {
+            string password = "";
+            ConsoleKeyInfo keyInfo;
+
+            do
+            {
+                keyInfo = Console.ReadKey(true);
+
+                if (keyInfo.Key != ConsoleKey.Enter && keyInfo.Key != ConsoleKey.Backspace)
+                {
+                    password += keyInfo.KeyChar;
+                    Console.Write("*");
+                }
+                else if (keyInfo.Key == ConsoleKey.Backspace && password.Length > 0)
+                {
+                    password = password.Remove(password.Length - 1);
+                    Console.Write("\b \b");
+                }
+            }
+            while (keyInfo.Key != ConsoleKey.Enter);
+
+            Console.WriteLine();
+            return password;
+        }
+        static void MenuTrangChu()
+        {
+            string[] menuItems = { "Quản lý khách hàng", "Quản lý đồ uống", "Quản lý thanh toán", "Quản lý nhân viên", "Quản lý doanh thu" };
             int selectedItemIndex = 0;
 
             while (true)
@@ -44,6 +137,8 @@ namespace qlquancafe
             int startCol = Console.WindowWidth / 2 - menuWidth / 2;
 
             Console.Clear();
+
+
             Console.SetCursorPosition(startCol, startRow - 2);
             Console.WriteLine("CHƯƠNG TRÌNH QUẢN LÝ QUÁN CAFE");
             // Vẽ đường viền trên cùng
@@ -92,51 +187,43 @@ namespace qlquancafe
             Console.SetCursorPosition(startCol + 5, startRow + selectedItemIndex + 1);
         }
 
-
-
-       
-
-
         static void HandleSelection(int selectedItemIndex)
         {
-           
-            
             Console.Clear();
 
             switch (selectedItemIndex)
             {
                 case 0:
-                    // Quản lý đồ uống
-                    Console.WriteLine("Chức năng quản khách hàng");
+                    // Quản lý khách hàng
+                    Console.WriteLine("Chức năng quản lý khách hàng");
                     qlKhachHang.QuanLyKhachHangMenu();
-                    // TODO: Thêm code để xử lý chức năng quản lý đồ uống
+                    // TODO: Thêm code để xử lý chức năng quản lý khách hàng
                     break;
                 case 1:
                     // Quản lý đồ uống
-                    Console.WriteLine("Chức năng quản lý menu sản phẩm");
+                    Console.WriteLine("Chức năng quản lý đồ uống");
                     QL_menu.QuanLyMenuSP();
                     // TODO: Thêm code để xử lý chức năng quản lý đồ uống
                     break;
                 case 2:
-                    // Quản lý đơn hàng
+                    // Quản lý thanh toán
                     Console.WriteLine("Chức năng thanh toán");
                     ThanhToan.ThucHienThanhToan();
-                    // TODO: Thêm code để xử lý chức năng quản lý đơn hàng
+                    // TODO: Thêm code để xử lý chức năng quản lý thanh toán
                     break;
                 case 3:
-                    // Quản lý khách hàng
+                    // Quản lý nhân viên
                     Console.WriteLine("Chức năng quản lý nhân viên");
-                    // TODO: Thêm code để xử lý chức năng quản lý khách hàng
                     QlNhanvien.QuanLyNhanVienMenu();
+                    // TODO: Thêm code để xử lý chức năng quản lý nhân viên
                     break;
                 case 4:
-                    // Quản lý khách hàng
-                    Console.WriteLine("Quản lý doanh thu");
-                    // TODO: Thêm code để xử lý chức năng quản lý khách hàng
+                    // Quản lý doanh thu
+                    Console.WriteLine("Chức năng quản lý doanh thu");
                     ThongKeDoanhThu.HienThiThongTinDoanhThu();
-                    break;
-
-               /* case 5:
+                // TODO: Thêm code để xử lý chức n
+                break;
+              /*  case 5:
                     // Quản lý bàn
                     Console.WriteLine("Chức năng quản lý bàn");
                     // TODO: Thêm code để xử lý chức năng quản lý bàn
@@ -144,7 +231,7 @@ namespace qlquancafe
             }
 
             Console.WriteLine("\nNhấn phím bất kỳ để trở về");
+            Console.ReadKey();
         }
     }
 }
-
