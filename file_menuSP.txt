@@ -1,0 +1,6 @@
+id02, cafe sữa, 20000
+id03, bạc sửu , 20000
+id04,đen đỏ,40000
+id06, đen sữa đá đường, 20000
+id11,a,a
+id01,cafe đá,20000
